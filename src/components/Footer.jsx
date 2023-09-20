@@ -63,7 +63,7 @@ const Footer = () => {
       <div className="sm:w-[90%] w-full flex justify-between animate-fade-in-down items-center mt-3">
         <div className="w-full grid grid-cols-1 py-5 px-10 text-xl lg:grid-cols-3 md:grid-cols-3">
           <p className="text-slate-200 text-center font-medium py-2 text-sm lg:text-left lg:text-base md:text-left md:text-base">
-            © 2021 - 2022, All rights reserved
+            © 2023 - 2077, All rights reserved
           </p>
 
           <div className="flex items-center mt-1 py-2 space-x-5 justify-center">
@@ -97,7 +97,7 @@ const Footer = () => {
 
           <div className="text-center text-sm py-2 lg:text-right lg:text-base md:text-right md:text-base">
             <p className=" text-slate-200 font-medium">
-              Made with fingers and brain by {""}
+              Made with fingers and my chaotic brain dead by {""}
               <a
                 target="_blank"
                 href="https://github.com/Rayyks"

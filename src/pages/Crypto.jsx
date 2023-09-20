@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
-import Loader from "../components/Loader";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
+
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const Crypto = () => {
   const [data, setData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [pageNumber, setPageNumber] = useState(0);
   const [filterOption, setFilterOption] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
   const itemsPerPage = 10;
   const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -19,16 +25,18 @@ const Crypto = () => {
   useEffect(() => {
     const apiUrl =
       "https://api.coinstats.app/public/v1/coins?skip=0&limit=100&currency=INR"; // Updated API URL
+    // "cock"; // Updated API URL
 
     axios
       .get(apiUrl)
       .then((res) => {
         setData(res.data.coins);
-        return <Loader />;
+
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log("Error fetching data", err);
-        return <Loader />;
+        setIsLoading(true);
       });
   }, []);
 
@@ -115,6 +123,7 @@ const Crypto = () => {
 
         <div className="p-1.5 w-full inline-block align-middle overflow-x-auto overflow-y-auto">
           {/* Table */}
+
           <table className="min-w-full divide-y divide-purple-800">
             <thead className=" bg-zinc-800">
               <tr>
@@ -128,13 +137,7 @@ const Crypto = () => {
                   scope="col"
                   className="px-6 py-3 text-xl font-bold text-left text-white uppercase"
                 >
-                  Symbol
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-xl font-bold text-left text-white uppercase"
-                >
-                  Name
+                  Coin
                 </th>
                 <th
                   scope="col"
@@ -162,36 +165,65 @@ const Crypto = () => {
                 </th>
               </tr>
             </thead>
+
             <tbody className="min-w-full divide-y divide-purple-800">
-              {filteredData.map((coin) => (
-                <tr key={coin.id}>
-                  <td className="px-6 py-4 text-lg font-semibold text-white whitespace-nowrap">
-                    <img
-                      src={coin.icon}
-                      alt={`${coin.name} icon`}
-                      className="w-8 h-8"
-                    />
-                  </td>
-                  <td className="px-6 py-4 text-lg font-semibold text-white whitespace-nowrap">
-                    {coin.symbol}
-                  </td>
-                  <td className="px-6 py-4 text-lg font-semibold text-white whitespace-nowrap">
-                    {coin.name}
-                  </td>
-                  <td className="px-6 py-4 text-lg font-semibold text-white whitespace-nowrap">
-                    {currencyFormatter.format(coin.priceChange1d)}
-                  </td>
-                  <td className="px-6 py-4 text-lg font-semibold text-white whitespace-nowrap">
-                    {currencyFormatter.format(coin.priceChange1h)}
-                  </td>
-                  <td className="px-6 py-4 text-lg font-semibold text-white whitespace-nowrap">
-                    {currencyFormatter.format(coin.priceChange1w)}
-                  </td>
-                  <td className="px-6 py-4 text-lg font-semibold text-right text-white whitespace-nowrap">
-                    {currencyFormatter.format(coin.price)}
-                  </td>
-                </tr>
-              ))}
+              <SkeletonTheme baseColor="#202020" highlightColor="#444">
+                {isLoading
+                  ? Array.from({ length: 12 }).map((_, index) => (
+                      <tr key={index}>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <Skeleton height={40} width={40} />
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <Skeleton height={24} width={100} />
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <Skeleton height={24} width={60} />
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <Skeleton height={24} width={60} />
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <Skeleton height={24} width={60} />
+                        </td>
+                        <td className="px-6 py-4 text-right whitespace-nowrap">
+                          <Skeleton height={24} width={80} />
+                        </td>
+                      </tr>
+                    ))
+                  : filteredData.map((coin) => (
+                      <tr key={coin.id}>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <Tippy
+                            content={coin.name}
+                            placement="top"
+                            arrow={false}
+                          >
+                            <img
+                              src={coin.icon}
+                              alt={`${coin.name} icon`}
+                              className="w-8 h-8"
+                            />
+                          </Tippy>
+                        </td>
+                        <td className="px-6 py-4 text-lg font-semibold text-white whitespace-nowrap">
+                          {coin.symbol}
+                        </td>
+                        <td className="px-6 py-4 text-lg font-semibold text-white whitespace-nowrap">
+                          {currencyFormatter.format(coin.priceChange1d)}
+                        </td>
+                        <td className="px-6 py-4 text-lg font-semibold text-white whitespace-nowrap">
+                          {currencyFormatter.format(coin.priceChange1h)}
+                        </td>
+                        <td className="px-6 py-4 text-lg font-semibold text-white whitespace-nowrap">
+                          {currencyFormatter.format(coin.priceChange1w)}
+                        </td>
+                        <td className="px-6 py-4 text-lg font-semibold text-right text-white whitespace-nowrap">
+                          {currencyFormatter.format(coin.price)}
+                        </td>
+                      </tr>
+                    ))}
+              </SkeletonTheme>
             </tbody>
           </table>
         </div>

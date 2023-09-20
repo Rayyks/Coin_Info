@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
-
+import { Link, NavLink } from "react-router-dom";
 import Logo from "../../../assets/images/logo.svg";
 import MenuItem from "./MenuItem";
 
@@ -16,10 +15,10 @@ const Navbar = () => {
     <div className="bg-mainBg  w-full border-b top-0 border-slate-400/5 z-20 shadow-lg text-2xl">
       <div className="px-4 py-5 mx-auto animate-fade-in-up sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
         <div className="relative flex items-center justify-between">
-          <Link
+          <NavLink
             to={"/"}
-            aria-label="Company"
-            title="Company"
+            aria-label="Home"
+            title="Home"
             className="inline-flex items-center"
           >
             <img src={Logo} alt="CryptoAce" />
@@ -27,40 +26,52 @@ const Navbar = () => {
               Coin
               <span className="text-logo-gradient">Info</span>
             </span>
-          </Link>
+          </NavLink>
 
           {/* Navigation Buttons */}
 
           <ul className="hidden mf:flex font-medium items-center text-slate-300 uppercase space-x-8">
             <li>
-              <Link
+              <NavLink
                 to={"/crypto"}
-                aria-label="Buy Token"
-                title="Buy Token"
-                className="tracking-wide hoverEffect"
+                aria-label="Crypto"
+                title="Crypto"
+                className={({ isActive, isPending }) =>
+                  `hoverEffect ${
+                    isPending ? "pending" : isActive ? "active" : ""
+                  }`
+                }
               >
                 Cryptocurrency
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link
+              <NavLink
                 to={"/nft"}
-                aria-label="Lottery"
-                title="Lottery"
-                className="tracking-wide hoverEffect"
+                aria-label="Nft"
+                title="Nft"
+                className={({ isActive, isPending }) =>
+                  `hoverEffect ${
+                    isPending ? "pending" : isActive ? "active" : ""
+                  }`
+                }
               >
                 NFT
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link
+              <NavLink
                 to={"/portfolio"}
                 aria-label="send ether"
                 title="send ether"
-                className="tracking-wide hoverEffect"
+                className={({ isActive, isPending }) =>
+                  `hoverEffect ${
+                    isPending ? "pending" : isActive ? "active" : ""
+                  }`
+                }
               >
                 Portfolio
-              </Link>
+              </NavLink>
             </li>
           </ul>
 
@@ -68,11 +79,8 @@ const Navbar = () => {
           {!isLoggedIn ? (
             <ul className="hidden mf:flex items-center space-x-8">
               <li>
-                <button
-                  className="bg-violet-300 hover:bg-violet-700 transition duration-300 ease-in-out rounded-full px-4 py-2 font-medium"
-                  onClick={() => setIsLoggedIn(!isLoggedIn)}
-                >
-                  Login
+                <button className="bg-violet-300 hover:bg-violet-700 transition duration-300 ease-in-out rounded-full px-4 py-2 font-medium">
+                  <Link to="/login">Login</Link>
                 </button>
               </li>
             </ul>

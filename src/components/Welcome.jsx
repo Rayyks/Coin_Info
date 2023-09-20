@@ -16,14 +16,14 @@ const Welcome = () => {
     getStarted.scrollIntoView({ behavior: "smooth", block: "end" });
   };
 
-  function parallax(event) {
+  function parallax(e) {
     const container = containerRef.current;
     const shiftElements = container.querySelectorAll(".plx");
 
     shiftElements.forEach((shift) => {
       const position = shift.getAttribute("value");
-      const x = (window.innerWidth - event.pageX * position) / 90;
-      const y = (window.innerHeight - event.pageY * position) / 90;
+      const x = (window.innerWidth - e.pageX * position) / 90;
+      const y = (window.innerHeight - e.pageY * position) / 90;
 
       // Uses GPU-accelerated transformations for better performance
       shift.style.transform = `translate3d(${x}px, ${y}px, 0)`;

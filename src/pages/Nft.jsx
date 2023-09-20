@@ -1,18 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
+import { useParams } from "react-router";
+
 
 const Nft = () => {
-  const [inputValue, setInputValue] = useState("");
-
-  const handleInputValue = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  return (
-    <div>
-      <h3>{inputValue}</h3>
-      <input type="text" onChange={handleInputValue} />
-    </div>
-  );
+  return <div>Nft</div>;
 };
 
 export default Nft;
