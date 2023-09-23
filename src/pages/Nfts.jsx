@@ -1,17 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import enefte from "../../assets/Backend/nfts";
+import { NftContext } from "../context/NftContext";
+import { Link } from "react-router-dom";
 
 const Nft = () => {
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Simulating loading for fun
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 500);
-  }, []);
+  const { data, isLoading } = useContext(NftContext);
 
   return (
     <section className="relative bg-mainBg select-none text-gray-100">
@@ -33,10 +27,10 @@ const Nft = () => {
                     </div>
                   </div>
                 ))
-              : enefte.map((nft) => {
+              : data.map((nft) => {
                   const { id, imageUrl, title, price } = nft;
                   return (
-                    <a key={id} to="#" className="group">
+                    <Link key={id} to={`/nft/${id}`} className="group">
                       <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-purple-800 hover:bg-purple-700 transition duration-300 ease-in-out transform hover:scale-105">
                         <img
                           src={imageUrl}
@@ -50,7 +44,7 @@ const Nft = () => {
                       <p className="mt-1 text-lg sm:text-base md:text-lg lg:text-xl xl:text-2xl font-medium text-gray-200">
                         ${price}
                       </p>
-                    </a>
+                    </Link>
                   );
                 })}
           </SkeletonTheme>

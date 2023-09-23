@@ -41,7 +41,7 @@ const MenuItem = ({ showMenu, active }) => {
       </li>
       <li>
         <Link
-          to={"/nft"}
+          to={"/nfts"}
           onClick={showMenu}
           aria-label="Lottery"
           title="Lottery"
@@ -66,11 +66,10 @@ const MenuItem = ({ showMenu, active }) => {
         <li>
           <button
             type="button"
-            // onClick={connectWallet}
             className="inline-flex items-center justify-center h-12 px-6 border-2 rounded-full border-btnBorder bg-transparent transition-all ease-linear delay-75 group hover:cursor-pointer hover:border-btnHover focus:border-btnHover"
           >
             <Link
-              to="#"
+              to="/login"
               className="text-btnText font-raj font-semibold transition-all ease-linear delay-75 group-hover:text-slate-200"
             >
               Login

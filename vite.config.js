@@ -6,4 +6,9 @@ export default defineConfig({
   define: {
     "process.env": process.env,
   },
+  resolve: {
+    alias: {
+      "chart.js/auto": "chart.js/auto",
+    },
+  },
 });

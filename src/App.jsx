@@ -3,16 +3,18 @@ import { Route, Routes } from "react-router";
 import { Navbar, Footer, NotFound, Loader, Transactions } from "./components";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CoinDetail from "./pages/Coin/CoinDetail";
 
 const Home = React.lazy(() => import("./pages/Home"));
-const Crypto = React.lazy(() => import("./pages/Crypto"));
-const Nft = React.lazy(() => import("./pages/Nfts"));
-const Portfolio = React.lazy(() => import("./pages/Portfolio"));
+const Crypto = React.lazy(() => import("./pages/Coin/Crypto"));
+const Nfts = React.lazy(() => import("./pages/Nfts"));
+const Nft = React.lazy(() => import("./pages/Nft"));
+const Portfolio = React.lazy(() => import("./pages/Profile/Portfolio"));
 const Login = React.lazy(() => import("./pages/Auth/Login"));
 const SignUp = React.lazy(() => import("./pages/Auth/SignUp"));
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   // Function to show the login notification
   const showLoginNotification = () => {
@@ -66,7 +68,23 @@ const App = () => {
           }
         />
         <Route
-          path={"/nft"}
+          path={"/coin/:id"}
+          element={
+            <Suspense fallback={<Loader full={true} />}>
+              <CoinDetail />
+            </Suspense>
+          }
+        />
+        <Route
+          path={"/nfts"}
+          element={
+            <Suspense fallback={<Loader full={true} />}>
+              <Nfts />
+            </Suspense>
+          }
+        />
+        <Route
+          path={"/nft/:id"}
           element={
             <Suspense fallback={<Loader full={true} />}>
               <Nft />

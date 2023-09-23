@@ -47,7 +47,7 @@ const Navbar = () => {
             </li>
             <li>
               <NavLink
-                to={"/nft"}
+                to={"/nfts"}
                 aria-label="Nft"
                 title="Nft"
                 className={({ isActive, isPending }) =>
