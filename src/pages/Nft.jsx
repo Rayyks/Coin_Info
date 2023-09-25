@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
 import { useParams } from "react-router";
 import { NftContext } from "../context/NftContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
 const Nft = () => {
-  const { data, quantity, incrementQuantity, decrementQuantity } =
-    useContext(NftContext);
+  const { data } = useContext(NftContext);
   const { id } = useParams();
   const nftId = Number(id);
   const Enft = data.find((nft) => nft.id === nftId);
@@ -24,10 +25,10 @@ const Nft = () => {
           </h2>
           <p className="text-gray-600 mb-4">{Enft.description}</p>
           <div className="flex items-center justify-between">
-            <div className="text-2xl font-semibold text-orange-500">
+            <div className="text-2xl font-semibold text-fuchsia-600 ">
               ${Enft.price}
             </div>
-            <div className="flex items-center space-x-2">
+            {/* <div className="flex items-center space-x-2">
               <button
                 className="bg-orange-500 text-white hover:bg-orange-600 rounded-full w-8 h-8 flex items-center justify-center"
                 onClick={decrementQuantity}
@@ -46,50 +47,19 @@ const Nft = () => {
               >
                 +
               </button>
-            </div>
+            </div> */}
           </div>
           <div className="mt-4 flex justify-between">
-            <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                />
-              </svg>
+            <button className="bg-fuchsia-600 transition ease-in-out  hover:bg-fuchsia-800 text-white px-2 py-2 rounded-md flex items-center">
+              <FontAwesomeIcon
+                icon={faCartShopping}
+                style={{ color: "#ffffff" }}
+                className="px-2"
+              />
               Add to Cart
             </button>
-            <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md flex items-center">
+            <button className="bg-fuchsia-600 transition ease-in-out  hover:bg-fuchsia-800 text-white px-4 py-2 rounded-md flex items-center">
               Buy Now
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 ml-2"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M9 2a1 1 0 00-1 1v8a1 1 0 001 1h5a1 1 0 100-2H10V3a1 1 0 00-1-1z"
-                  clipRule="evenodd"
-                />
-                <path
-                  fillRule="evenodd"
-                  d="M7 2a1 1 0 00-1 1v5a1 1 0 112 0V4a1 1 0 00-1-1z"
-                  clipRule="evenodd"
-                />
-                <path
-                  fillRule="evenodd"
-                  d="M5 4a3 3 0 113-3 3 3 0 01-3 3z"
-                  clipRule="evenodd"
-                />
-              </svg>
             </button>
           </div>
         </div>

@@ -14,14 +14,14 @@ const Portfolio = () => {
   const COLORS = ["#F0B90B", "#2FC3E0", "#F0A70B", "#A5B1C2"];
 
   return (
-    <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-mainBg">
+    <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg  bg-mainBg">
       <div className="rounded-t mb-0 px-4 py-3 bg-transparent">
         <div className="flex flex-wrap items-center">
           <div className="relative w-full max-w-full flex-grow flex-1">
-            <h6 className="uppercase text-gray-700 mb-1 text-xs font-semibold">
+            <h6 className="uppercase text-gray-100 mb-1 text-xs font-semibold">
               Portfolio Distribution
             </h6>
-            <h2 className="text-gray-900 text-xl font-semibold">
+            <h2 className="text-gray-100 text-xl font-semibold">
               Asset Allocation
             </h2>
           </div>

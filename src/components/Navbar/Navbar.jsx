@@ -2,13 +2,23 @@ import React, { useState, useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Logo from "../../../assets/images/logo.svg";
 import MenuItem from "./MenuItem";
+import { AuthContext } from "../../context/AuthContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { CartContext } from "../../context/CartContext";
 
 const Navbar = () => {
+  const { isLoggedIn, logout } = useContext(AuthContext);
+  const { open, setOpen } = useContext(CartContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const showMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
   };
 
   return (
@@ -85,20 +95,51 @@ const Navbar = () => {
               </li>
             </ul>
           ) : (
-            <ul className="hidden mf:flex items-center space-x-8">
+            <ul className="hidden mf:flex items-center space-x-8 relative">
               <li>
                 <button
                   className="bg-violet-300 hover:bg-violet-700 transition duration-300 ease-in-out rounded-full px-4 py-2 font-medium"
-                  onClick={() => setIsLoggedIn(!isLoggedIn)}
+                  onClick={toggleDropdown}
                 >
-                  Sign Out
+                  <span className="sr-only">Open user menu</span>
+                  <FontAwesomeIcon icon={faUser} style={{ color: "#ee00ff" }} />
                 </button>
+                {showDropdown && (
+                  <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                    <div
+                      className="py-1"
+                      role="menu"
+                      aria-orientation="vertical"
+                      aria-labelledby="options-menu"
+                    >
+                      <Link
+                        to="/profile"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        role="menuitem"
+                      >
+                        Profile
+                      </Link>
+                      <Link
+                        to="/cart"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        role="menuitem"
+                      >
+                        Cart
+                      </Link>
+                      <button
+                        onClick={logout}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        role="menuitem"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  </div>
+                )}
               </li>
             </ul>
           )}
-
-          {/* Toggler */}
-
+          {/* Mobile Toggler */}
           <div className="absolute right-6 mf:hidden top-[5px] scale-150">
             <button
               className={isMenuOpen ? "menu opened" : "menu"}

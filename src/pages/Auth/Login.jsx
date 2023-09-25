@@ -1,19 +1,49 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
-  const { authState, dispatch } = useContext(AuthContext);
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    // Dispatch the LOGIN action with form data
-    dispatch({ type: "LOGIN", payload: formData });
-    navigate("/"); // Redirect to dashboard on successful login
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  // Function for handling form input changes
+  const handleInputChanges = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
+  // Function to handle form submission
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    // Extract form data
+    const { email, password } = formData;
+
+    try {
+      // Call login function from AuthContext
+      await login(email, password);
+
+      // If login is successful, display a success toast
+      toast.success("Logged in successfully!");
+
+      // Navigate to home page
+      navigate("/");
+      console.log(formData, "YOU ARE LoggedIn");
+    } catch (error) {
+      // Handle login error, e.g., show an error toast
+      console.error("Login failed:", error);
+    }
+  };
   return (
     <div className="relative isolate bg-mainBg  flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div
@@ -56,9 +86,7 @@ const Login = () => {
                 autoComplete="email"
                 required
                 value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
+                onChange={handleInputChanges}
                 className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-800 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
@@ -89,9 +117,7 @@ const Login = () => {
                 autoComplete="current-password"
                 required
                 value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
+                onChange={handleInputChanges}
                 className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>

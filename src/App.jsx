@@ -1,28 +1,33 @@
-import React, { useState, Suspense } from "react";
-import { Route, Routes } from "react-router";
-import { Navbar, Footer, NotFound, Loader, Transactions } from "./components";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import CoinDetail from "./pages/Coin/CoinDetail";
+import React, { Suspense, useContext } from "react";
+import { Route, Routes, useNavigate } from "react-router";
+import { Navbar, Footer, NotFound, Loader } from "./components";
+import { AuthContext } from "./context/AuthContext";
 
+const Login = React.lazy(() => import("./pages/Auth/Login"));
+const SignUp = React.lazy(() => import("./pages/Auth/SignUp"));
 const Home = React.lazy(() => import("./pages/Home"));
 const Crypto = React.lazy(() => import("./pages/Coin/Crypto"));
+const CoinDetail = React.lazy(() => import("./pages/Coin/CoinDetail"));
 const Nfts = React.lazy(() => import("./pages/Nfts"));
 const Nft = React.lazy(() => import("./pages/Nft"));
 const Portfolio = React.lazy(() => import("./pages/Profile/Portfolio"));
-const Login = React.lazy(() => import("./pages/Auth/Login"));
-const SignUp = React.lazy(() => import("./pages/Auth/SignUp"));
+const Cart = React.lazy(() => import("./pages/Cart/Cart"));
+const Profile = React.lazy(() => import("./pages/Profile/Profile"));
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const { isLoggedIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [showAlert, setShowAlert] = useState(false);
 
-  // Function to show the login notification
-  const showLoginNotification = () => {
-    toast.error("Please log in to access your portfolio.", {
-      position: "top-center",
-      autoClose: 5000, // 5 seconds
-    });
+  const showNotificationAndRedirect = () => {
+    setShowAlert(true);
   };
+
+  const closeAlert = () => {
+    setShowAlert(false);
+    navigate("/login");
+  };
+
   return (
     <div className="min-h-screen flex flex-col overflow-hidden">
       <Navbar />
@@ -98,11 +103,67 @@ const App = () => {
               <ToastContainer />
               {!isLoggedIn ? (
                 <>
-                  {showLoginNotification()}
-                  <Login />
+                  {showNotificationAndRedirect()}
+                  {showAlert && (
+                    <SweetAlert
+                      danger
+                      title="Please log in"
+                      onConfirm={closeAlert}
+                    >
+                      You need to log in to access this page.
+                    </SweetAlert>
+                  )}
                 </>
               ) : (
                 <Portfolio />
+              )}
+            </Suspense>
+          }
+        />
+        <Route
+          path={"/profile"}
+          element={
+            <Suspense fallback={<Loader full={true} />}>
+              <ToastContainer />
+              {!isLoggedIn ? (
+                <>
+                  {showNotificationAndRedirect()}
+                  {showAlert && (
+                    <SweetAlert
+                      danger
+                      title="Please log in"
+                      onConfirm={closeAlert}
+                    >
+                      You need to log in to access this page.
+                    </SweetAlert>
+                  )}
+                </>
+              ) : (
+                <Profile />
+              )}
+            </Suspense>
+          }
+        />
+        <Route
+          path={"/cart"}
+          element={
+            <Suspense fallback={<Loader full={true} />}>
+              <ToastContainer />
+              {!isLoggedIn ? (
+                <>
+                  {showNotificationAndRedirect()}
+                  {showAlert && (
+                    <SweetAlert
+                      danger
+                      title="Please log in"
+                      onConfirm={closeAlert}
+                    >
+                      You need to log in to access this page.
+                    </SweetAlert>
+                  )}
+                </>
+              ) : (
+                <Cart />
               )}
             </Suspense>
           }

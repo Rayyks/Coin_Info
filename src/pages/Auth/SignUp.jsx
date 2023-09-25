@@ -1,7 +1,48 @@
-import React from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SingUp = () => {
+  const { signUp } = useContext(AuthContext); // Corrected from singUp to signUp
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  // Function for handling form input changes
+  const handleInputChanges = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  // Function to handle form submission
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    // Extract form data
+    const { username, email, password } = formData;
+
+    // Call signUp function from AuthContext
+    signUp(username, email, password);
+
+    // Display a success toast for signup
+    toast.success("Account created successfully!");
+
+    // Navigate to the login page
+    navigate("/login");
+
+    console.log(formData);
+  };
+
   return (
     <div className="relative isolate bg-mainBg flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div
@@ -28,7 +69,7 @@ const SingUp = () => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" action="#" method="POST">
+        <form className="space-y-6" onSubmit={handleFormSubmit}>
           <div>
             <label
               htmlFor="username"
@@ -41,25 +82,8 @@ const SingUp = () => {
                 id="username"
                 name="username"
                 type="text"
-                autoComplete="username"
-                required
-                className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-lg font-medium leading-6 text-gray-100"
-            >
-              Name
-            </label>
-            <div className="mt-2">
-              <input
-                id="name"
-                name="name"
-                type="text"
-                autoComplete="name"
+                value={formData.username}
+                onChange={handleInputChanges}
                 required
                 className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -78,6 +102,8 @@ const SingUp = () => {
                 name="email"
                 type="email"
                 autoComplete="email"
+                value={formData.email}
+                onChange={handleInputChanges}
                 required
                 className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -98,7 +124,8 @@ const SingUp = () => {
                 id="password"
                 name="password"
                 type="password"
-                autoComplete="current-password"
+                value={formData.password}
+                onChange={handleInputChanges}
                 required
                 className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
