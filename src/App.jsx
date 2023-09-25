@@ -2,6 +2,9 @@ import React, { Suspense, useContext } from "react";
 import { Route, Routes, useNavigate } from "react-router";
 import { Navbar, Footer, NotFound, Loader } from "./components";
 import { AuthContext } from "./context/AuthContext";
+import { ToastContainer } from "react-toastify";
+
+import AuthGuard from "./utils/AuthGuard";
 
 const Login = React.lazy(() => import("./pages/Auth/Login"));
 const SignUp = React.lazy(() => import("./pages/Auth/SignUp"));
@@ -17,16 +20,6 @@ const Profile = React.lazy(() => import("./pages/Profile/Profile"));
 const App = () => {
   const { isLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [showAlert, setShowAlert] = useState(false);
-
-  const showNotificationAndRedirect = () => {
-    setShowAlert(true);
-  };
-
-  const closeAlert = () => {
-    setShowAlert(false);
-    navigate("/login");
-  };
 
   return (
     <div className="min-h-screen flex flex-col overflow-hidden">
@@ -99,73 +92,31 @@ const App = () => {
         <Route
           path={"/portfolio"}
           element={
-            <Suspense fallback={<Loader full={true} />}>
-              <ToastContainer />
-              {!isLoggedIn ? (
-                <>
-                  {showNotificationAndRedirect()}
-                  {showAlert && (
-                    <SweetAlert
-                      danger
-                      title="Please log in"
-                      onConfirm={closeAlert}
-                    >
-                      You need to log in to access this page.
-                    </SweetAlert>
-                  )}
-                </>
-              ) : (
+            <AuthGuard>
+              <Suspense fallback={<Loader full={true} />}>
                 <Portfolio />
-              )}
-            </Suspense>
+              </Suspense>
+            </AuthGuard>
           }
         />
         <Route
           path={"/profile"}
           element={
-            <Suspense fallback={<Loader full={true} />}>
-              <ToastContainer />
-              {!isLoggedIn ? (
-                <>
-                  {showNotificationAndRedirect()}
-                  {showAlert && (
-                    <SweetAlert
-                      danger
-                      title="Please log in"
-                      onConfirm={closeAlert}
-                    >
-                      You need to log in to access this page.
-                    </SweetAlert>
-                  )}
-                </>
-              ) : (
+            <AuthGuard>
+              <Suspense fallback={<Loader full={true} />}>
                 <Profile />
-              )}
-            </Suspense>
+              </Suspense>
+            </AuthGuard>
           }
         />
         <Route
           path={"/cart"}
           element={
-            <Suspense fallback={<Loader full={true} />}>
-              <ToastContainer />
-              {!isLoggedIn ? (
-                <>
-                  {showNotificationAndRedirect()}
-                  {showAlert && (
-                    <SweetAlert
-                      danger
-                      title="Please log in"
-                      onConfirm={closeAlert}
-                    >
-                      You need to log in to access this page.
-                    </SweetAlert>
-                  )}
-                </>
-              ) : (
+            <AuthGuard>
+              <Suspense fallback={<Loader full={true} />}>
                 <Cart />
-              )}
-            </Suspense>
+              </Suspense>
+            </AuthGuard>
           }
         />
         <Route
@@ -178,6 +129,7 @@ const App = () => {
         />
       </Routes>
       <Footer />
+      <ToastContainer />
     </div>
   );
 };

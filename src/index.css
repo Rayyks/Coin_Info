@@ -288,3 +288,30 @@
     scroll-behavior: smooth;
   }
 }
+
+/* sdsdasdasds */
+.dropdown-enter {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.dropdown-enter-active {
+  max-height: 200px; /* Adjust the value based on your content */
+  overflow: hidden;
+  opacity: 1;
+  transition: max-height 300ms, opacity 300ms;
+}
+
+.dropdown-exit {
+  max-height: 200px; /* Adjust the value based on your content */
+  overflow: hidden;
+  opacity: 1;
+}
+
+.dropdown-exit-active {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 300ms, opacity 300ms;
+}

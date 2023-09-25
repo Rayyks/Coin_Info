@@ -6,6 +6,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { CartContext } from "../../context/CartContext";
+import { CSSTransition } from "react-transition-group";
 
 const Navbar = () => {
   const { isLoggedIn, logout } = useContext(AuthContext);
@@ -18,7 +19,7 @@ const Navbar = () => {
   };
 
   const toggleDropdown = () => {
-    setShowDropdown(!showDropdown);
+    setShowDropdown((prev) => !prev);
   };
 
   return (
@@ -105,36 +106,43 @@ const Navbar = () => {
                   <FontAwesomeIcon icon={faUser} style={{ color: "#ee00ff" }} />
                 </button>
                 {showDropdown && (
-                  <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                    <div
-                      className="py-1"
-                      role="menu"
-                      aria-orientation="vertical"
-                      aria-labelledby="options-menu"
-                    >
-                      <Link
-                        to="/profile"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        role="menuitem"
+                  <CSSTransition
+                    in={showDropdown}
+                    timeout={300} // Adjust the duration as needed
+                    classNames="dropdown"
+                    unmountOnExit
+                  >
+                    <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                      <div
+                        className="py-1"
+                        role="menu"
+                        aria-orientation="vertical"
+                        aria-labelledby="options-menu"
                       >
-                        Profile
-                      </Link>
-                      <Link
-                        to="/cart"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        role="menuitem"
-                      >
-                        Cart
-                      </Link>
-                      <button
-                        onClick={logout}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        role="menuitem"
-                      >
-                        Sign Out
-                      </button>
+                        <Link
+                          to="/profile"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          role="menuitem"
+                        >
+                          Profile
+                        </Link>
+                        <Link
+                          to="/cart"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          role="menuitem"
+                        >
+                          Cart
+                        </Link>
+                        <button
+                          onClick={logout}
+                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          role="menuitem"
+                        >
+                          Sign Out
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  </CSSTransition>
                 )}
               </li>
             </ul>
