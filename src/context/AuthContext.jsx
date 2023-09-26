@@ -1,4 +1,5 @@
 import { useState, createContext, useEffect, useContext } from "react";
+import { toast } from "react-toastify";
 
 export const AuthContext = createContext();
 
@@ -26,13 +27,21 @@ const AuthProvider = ({ children }) => {
       localStorage.setItem("email", email);
       localStorage.setItem("password", password);
     } catch (error) {
-      console.log("Please Go fuck you selft", error);
+      console.log("Please Go fuck you self", error);
     }
   };
 
   // Function to handle user login
   const login = (email, password) => {
     try {
+      // Check if user is registered
+      const registeredEmail = localStorage.getItem("email");
+      const registeredPassword = localStorage.getItem("password");
+
+      if (email !== registeredEmail || password !== registeredPassword) {
+        return;
+      }
+
       setIsLoggedIn(true);
       setUserData({ email, password });
 

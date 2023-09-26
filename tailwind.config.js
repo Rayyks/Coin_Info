@@ -29,6 +29,14 @@ module.exports = {
         slateBg: "#202231",
         textBg: "#bfbfbf",
         borderBg: "#3a4361",
+
+        // another one
+        textColor: "#1E1516",
+        darkGrey: "#AEB0B1",
+        lightGrey1: "#DFDFE2",
+        lightGrey2: "#D8D8DF",
+        primaryColor: "#6E94EF",
+        white: "#fff",
       },
       fontFamily: {
         raj: ["Rajdhani", "sans-serif"],

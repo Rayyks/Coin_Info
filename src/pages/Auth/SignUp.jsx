@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -35,7 +35,16 @@ const SingUp = () => {
     signUp(username, email, password);
 
     // Display a success toast for signup
-    toast.success("Account created successfully!");
+    toast.success("Account created successfully!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
 
     // Navigate to the login page
     navigate("/login");

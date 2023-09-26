@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useParams } from "react-router";
 import { useNft } from "../context/NftContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,7 +18,20 @@ const Nft = () => {
 
   const handleCartBtn = () => {
     if (!isLoggedIn) {
-      return toast.error("You must be logged in to access this page");
+      const nftType = Enft.title.includes("Special") ? "DOPE" : "CUTE";
+      return toast.error(
+        `You must be logged in to add this ${nftType} ${Enft.title} to cart`,
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        }
+      );
     }
 
     const addItem = {
@@ -29,10 +42,16 @@ const Nft = () => {
     };
 
     addToCart(addItem);
-    console.log("Item is in the cart");
-
-    addToCart(addItem);
-    toast.success(`${Enft.title} has been added to your cart.`);
+    toast.success(`${Enft.title} has been added to your cart.`, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
   };
 
   return (

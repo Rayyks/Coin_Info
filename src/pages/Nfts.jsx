@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useNft } from "../context/NftContext";
@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 
 const Nft = () => {
   const { data, isLoading } = useNft();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <section className="relative bg-mainBg select-none text-gray-100">

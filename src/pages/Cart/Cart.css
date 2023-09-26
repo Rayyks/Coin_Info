@@ -1,0 +1,107 @@
+/* Cart.css */
+
+/* Container for the entire cart page */
+.cart-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Styles for individual cart items */
+.cart-item {
+  display: flex;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.item-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-right: 20px;
+  border-radius: 4px;
+}
+
+.item-details {
+  flex-grow: 1;
+}
+
+.item-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.item-description {
+  font-size: 14px;
+  color: #777;
+}
+
+.item-price {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
+}
+
+.item-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+/* Buttons for actions */
+.remove-all-button,
+.remove-one-button,
+.add-more-button {
+  padding: 5px 10px;
+  margin-top: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.remove-all-button {
+  background-color: #ff4500;
+}
+
+.remove-one-button {
+  background-color: #ff6347;
+}
+
+.add-more-button {
+  background-color: #4caf50;
+}
+
+.remove-all-button:hover,
+.remove-one-button:hover,
+.add-more-button:hover {
+  background-color: #e53935;
+}
+
+/* Quantity display */
+.item-quantity {
+  font-size: 14px;
+  color: #777;
+  margin-top: 5px;
+}
+
+/* Total price warning */
+.total-price-warning {
+  background-color: #ffc107;
+  padding: 10px;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 20px;
+  color: #333;
+}

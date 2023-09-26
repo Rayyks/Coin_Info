@@ -2,54 +2,93 @@ import { useState } from "react";
 import { useCart } from "../../context/CartContext";
 import { toast } from "react-toastify";
 import ConfirmationDialog from "../../utils/ConfirmationDialog";
+import "./Cart.css";
 
 const Cart = () => {
-  const { cartItem, removeOneFromCart, removeAllFromCart } = useCart();
+  const {
+    cartItem,
+    addToCart,
+    removeOneFromCart,
+    removeAllItem,
+    removeAllFromChart,
+  } = useCart();
+
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
   // Calculate the total price
   const total = cartItem.reduce((acc, item) => acc + item.totalPrice, 0);
 
-  const handleRemoveAllItems = (item) => {
+  const handleRemoveAllItem = (item) => {
     setShowConfirmation(true);
     setSelectedItem(item); // Store the selected item
   };
 
   const confirmRemoveAllItems = () => {
-    removeAllFromCart(selectedItem.id); // Use the selected item here
-    toast.success("All items have been removed from your cart.");
+    removeAllItem(selectedItem.id); // Use the selected item here
+    toast.success("All items have been removed from your cart.", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
     setShowConfirmation(false);
   };
 
   return (
-    <div>
+    <div className="cart-container">
       {cartItem.length > 0 ? (
         <div>
           {cartItem.map((item) => (
-            <div key={item.id}>
-              <img src={item.imageUrl} alt={item.title} />
-              <h1>{item.title}</h1>
-              <h3>{item.description}</h3>
-              <p>Total Price: ${item.totalPrice}</p>
-              <button onClick={() => handleRemoveAllItems(item)}>
-                Remove all item's
-              </button>
-              <button
-                onClick={() => {
-                  removeOneFromCart(item.id);
-                  toast.success(
-                    `${item.title} has been removed from your cart.`
-                  );
-                }}
-              >
-                Remove From Cart
-              </button>
-              <p>{item.quantity}</p>
+            <div key={item.id} className="cart-item">
+              <img
+                src={item.imageUrl}
+                alt={item.title}
+                className="item-image"
+              />
+              <div className="item-details">
+                <h1 className="item-title">{item.title}</h1>
+                <h3 className="item-description">{item.description}</h3>
+                <p className="item-price">Total Price: ${item.totalPrice}</p>
+              </div>
+              <div className="item-actions">
+                <button
+                  className="remove-all-button"
+                  onClick={() => handleRemoveAllItem(item)}
+                >
+                  Remove From Cart
+                </button>
+                <button
+                  className="remove-one-button"
+                  onClick={() => {
+                    removeOneFromCart(item.id);
+                    toast.success(
+                      `${item.title} has been removed from your cart.`,
+                      {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                      }
+                    );
+                  }}
+                >
+                  Remove Item
+                </button>
+              </div>
+              <p className="item-quantity">Quantity: {item.quantity}</p>
             </div>
           ))}
           {total > 1000 && (
-            <div>
+            <div className="total-price-warning">
               <p>
                 Your total price is ${total}, please don't spend too much money
                 on NFTs :)

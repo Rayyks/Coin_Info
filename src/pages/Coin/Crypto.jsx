@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import { useCoin } from "../../context/CryptoContext";
 import ReactPaginate from "react-paginate";
 import Tippy from "@tippyjs/react";
@@ -19,6 +19,10 @@ const Crypto = () => {
     setFilterOption,
     isLoading,
   } = useCoin();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
 
   const itemsPerPage = 10;
   const currencyFormatter = new Intl.NumberFormat("en-US", {

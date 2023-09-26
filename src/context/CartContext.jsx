@@ -1,11 +1,9 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
-import { toast } from "react-toastify";
 
 export const CartContext = createContext();
 
 const CartProvider = ({ children }) => {
   const [cartItem, setCartItem] = useState([]);
-  const [notifications, setNotifications] = useState([]);
 
   // For load the cart item
   useEffect(() => {
@@ -67,19 +65,22 @@ const CartProvider = ({ children }) => {
   };
 
   // Remove all from cart
-  const removeAllFromCart = (itemId) => {
+  const removeAllItem = (itemId) => {
     const updateCart = cartItem.filter((item) => item.id !== itemId);
     setCartItem(updateCart);
   };
 
+  const removeAllFromChart = () => {
+    setCartItem([]);
+  };
   return (
     <CartContext.Provider
       value={{
         cartItem,
         addToCart,
         removeOneFromCart,
-        removeAllFromCart,
-        notifications,
+        removeAllFromChart,
+        removeAllItem,
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
@@ -30,11 +30,34 @@ const Login = () => {
     const { email, password } = formData;
 
     try {
+      const isRegistered = localStorage.getItem("email") === email;
+      if (!isRegistered) {
+        toast.error("Check your email / password or Register ", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        return;
+      }
       // Call login function from AuthContext
       await login(email, password);
 
       // If login is successful, display a success toast
-      toast.success(`Welcome Back ${user}`);
+      toast.success(`Welcome Back ${user}`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
 
       // Navigate to home page
       navigate("/");
