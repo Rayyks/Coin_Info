@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { Navigate } from "react-router";
-import { AuthContext } from "../context/AuthContext";
-import { ToastContainer, toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const AuthGuard = ({ children }) => {
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn } = useAuth();
 
   if (!isLoggedIn) {
     toast.error("You must be logged in to access this page");

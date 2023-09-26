@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { CryptoContext } from "../../context/CryptoContext";
+import { useCoin } from "../../context/CryptoContext";
 import ReactPaginate from "react-paginate";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
@@ -18,7 +18,7 @@ const Crypto = () => {
     filterOption,
     setFilterOption,
     isLoading,
-  } = useContext(CryptoContext);
+  } = useCoin();
 
   const itemsPerPage = 10;
   const currencyFormatter = new Intl.NumberFormat("en-US", {

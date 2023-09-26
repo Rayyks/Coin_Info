@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useParams } from "react-router";
-import { CryptoContext } from "../../context/CryptoContext";
+import { useCoin } from "../../context/CryptoContext";
 import { Loader } from "../../components";
 import {
   LineChart,
@@ -13,7 +13,7 @@ import {
 } from "recharts";
 
 const CoinDetail = () => {
-  const { data } = useContext(CryptoContext);
+  const { data } = useCoin();
   const { id } = useParams();
   const coinId = id;
   const coin = data.find((coin) => coin.id === coinId);

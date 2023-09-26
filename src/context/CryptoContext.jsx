@@ -1,4 +1,4 @@
-import React, { useState, createContext, useEffect } from "react";
+import React, { useState, createContext, useEffect, useContext } from "react";
 import useFetch from "../hooks/useFetch";
 
 export const CryptoContext = createContext();
@@ -32,6 +32,10 @@ const CryptoProvider = ({ children }) => {
       {children}
     </CryptoContext.Provider>
   );
+};
+
+export const useCoin = () => {
+  return useContext(CryptoContext);
 };
 
 export default CryptoProvider;

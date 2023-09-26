@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { NftContext } from "../context/NftContext";
+import { useNft } from "../context/NftContext";
 import { Link } from "react-router-dom";
 
 const Nft = () => {
-  const { data, isLoading } = useContext(NftContext);
+  const { data, isLoading } = useNft();
 
   return (
     <section className="relative bg-mainBg select-none text-gray-100">

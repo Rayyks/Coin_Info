@@ -1,16 +1,16 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Logo from "../../../assets/images/logo.svg";
 import MenuItem from "./MenuItem";
-import { AuthContext } from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { CartContext } from "../../context/CartContext";
 import { CSSTransition } from "react-transition-group";
+import { useCart } from "../../context/CartContext";
 
 const Navbar = () => {
-  const { isLoggedIn, logout } = useContext(AuthContext);
-  const { open, setOpen } = useContext(CartContext);
+  const { isLoggedIn, logout } = useAuth();
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
 

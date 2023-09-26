@@ -1,12 +1,12 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const SingUp = () => {
-  const { signUp } = useContext(AuthContext); // Corrected from singUp to signUp
+  const { signUp } = useAuth();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({

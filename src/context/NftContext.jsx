@@ -1,4 +1,10 @@
-import { useState, createContext, useEffect, useReducer } from "react";
+import {
+  useState,
+  createContext,
+  useEffect,
+  useReducer,
+  useContext,
+} from "react";
 import enefte from "../../assets/Backend/nfts.js";
 
 export const NftContext = createContext();
@@ -25,6 +31,10 @@ const NftProvider = ({ children }) => {
       {children}
     </NftContext.Provider>
   );
+};
+
+export const useNft = () => {
+  return useContext(NftContext);
 };
 
 export default NftProvider;

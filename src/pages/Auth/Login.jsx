@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
-  const { login } = useContext(AuthContext);
+  const { login, user } = useAuth();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -34,7 +34,7 @@ const Login = () => {
       await login(email, password);
 
       // If login is successful, display a success toast
-      toast.success("Logged in successfully!");
+      toast.success(`Welcome Back ${user}`);
 
       // Navigate to home page
       navigate("/");
