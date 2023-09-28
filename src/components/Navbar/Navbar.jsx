@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Logo from "../../../assets/images/logo.svg";
 import MenuItem from "./MenuItem";
@@ -9,9 +9,9 @@ import { CSSTransition } from "react-transition-group";
 
 const Navbar = () => {
   const { isLoggedIn, logout } = useAuth();
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
 
   const showMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -21,6 +21,19 @@ const Navbar = () => {
     setShowDropdown((prev) => !prev);
   };
 
+  const closeDropdown = (e) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      setShowDropdown(false);
+    }
+  };
+
+  useEffect(() => {
+    // add event listener
+    document.addEventListener("click", closeDropdown);
+
+    // remove event listener
+    return document.removeEventListener("clicl", closeDropdown);
+  }, []);
   return (
     <div className="bg-mainBg  w-full border-b top-0 border-slate-400/5 z-20 shadow-lg text-2xl">
       <div className="px-4 py-5 mx-auto animate-fade-in-up sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
@@ -100,6 +113,7 @@ const Navbar = () => {
                 <button
                   className="bg-violet-300 hover:bg-violet-700 transition duration-300 ease-in-out rounded-full px-4 py-2 font-medium"
                   onClick={toggleDropdown}
+                  ref={dropdownRef}
                 >
                   <span className="sr-only">Open user menu</span>
                   <FontAwesomeIcon icon={faUser} style={{ color: "#ee00ff" }} />
@@ -107,7 +121,7 @@ const Navbar = () => {
                 {showDropdown && (
                   <CSSTransition
                     in={showDropdown}
-                    timeout={300} // Adjust the duration as needed
+                    timeout={300}
                     classNames="dropdown"
                     unmountOnExit
                   >

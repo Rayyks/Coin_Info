@@ -1,5 +1,5 @@
 import React from "react";
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
 
 const Portfolio = () => {
   // Sample data for the pie chart
@@ -14,29 +14,22 @@ const Portfolio = () => {
   const COLORS = ["#F0B90B", "#2FC3E0", "#F0A70B", "#A5B1C2"];
 
   return (
-    <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg  bg-mainBg">
-      <div className="rounded-t mb-0 px-4 py-3 bg-transparent">
-        <div className="flex flex-wrap items-center">
-          <div className="relative w-full max-w-full flex-grow flex-1">
-            <h6 className="uppercase text-gray-100 mb-1 text-xs font-semibold">
-              Portfolio Distribution
-            </h6>
-            <h2 className="text-gray-100 text-xl font-semibold">
-              Asset Allocation
-            </h2>
-          </div>
-        </div>
+    <div className="bg-mainBg  p-48 shadow-lg">
+      <div className="mb-6">
+        <h1 className="text-2xl font-semibold text-gray-200">
+          Asset Allocation
+        </h1>
+        <p className="text-gray-400 text-sm">Portfolio Distribution</p>
       </div>
-      <div className="p-4 flex-auto">
-        {/* Chart */}
-        <div className="relative h-80">
-          <ResponsiveContainer width="100%" height="100%">
+      <div className="flex flex-col lg:flex-row items-center">
+        <div className="w-full lg:w-2/3">
+          <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
                 data={data}
                 cx="50%"
                 cy="50%"
-                outerRadius={60}
+                outerRadius={80}
                 fill="#8884d8"
                 dataKey="value"
                 label
@@ -48,18 +41,23 @@ const Portfolio = () => {
                   />
                 ))}
               </Pie>
+              <Legend
+                verticalAlign="bottom"
+                height={40}
+                iconSize={12}
+                iconType="circle"
+              />
             </PieChart>
           </ResponsiveContainer>
         </div>
-        {/* Legend */}
-        <div className="mt-4">
+        <div className="w-full lg:w-1/3 mt-6 lg:mt-0">
           {data.map((entry, index) => (
             <div key={`legend-${index}`} className="flex items-center mb-2">
               <span
                 className="w-4 h-4 mr-2 rounded-full"
                 style={{ backgroundColor: COLORS[index % COLORS.length] }}
               ></span>
-              <span className="text-gray-700">{entry.name}</span>
+              <span className="text-gray-100">{entry.name}</span>
             </div>
           ))}
         </div>

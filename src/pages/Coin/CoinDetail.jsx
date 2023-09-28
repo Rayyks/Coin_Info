@@ -100,9 +100,6 @@ const CoinDetail = () => {
                 </ul>
               </div>
             </div>
-            <p className="leading-relaxed text-white">
-              AMBATUKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAm
-            </p>
           </div>
         </div>
       </div>

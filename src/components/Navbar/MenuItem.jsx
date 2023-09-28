@@ -1,7 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const MenuItem = ({ showMenu, active }) => {
+  const { isLoggedIn, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    showMenu();
+  };
   return (
     <menu
       className={
@@ -62,20 +69,55 @@ const MenuItem = ({ showMenu, active }) => {
         </Link>
       </li>
 
-      <ul className={active ? "items-center space-x-8" : "hidden"}>
-        <li>
-          <button
-            type="button"
-            className="inline-flex items-center justify-center h-12 px-6 border-2 rounded-full border-btnBorder bg-transparent transition-all ease-linear delay-75 group hover:cursor-pointer hover:border-btnHover focus:border-btnHover"
-          >
-            <Link
-              to="/login"
-              className="text-btnText font-raj font-semibold transition-all ease-linear delay-75 group-hover:text-slate-200"
+      <ul className={active ? "items-center text-center space-x-8" : "hidden"}>
+        {isLoggedIn ? (
+          <>
+            <li>
+              <Link
+                to="/profile"
+                onClick={showMenu}
+                aria-label="Profile"
+                title="Profile"
+                className="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-purple-400"
+              >
+                Profile
+              </Link>
+              <br />
+              <Link
+                to="/cart"
+                onClick={showMenu}
+                aria-label="Cart"
+                title="Cart"
+                className="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-purple-400"
+              >
+                Cart
+              </Link>
+              <br />
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-purple-400"
+              >
+                Sign Out
+              </button>
+            </li>
+          </>
+        ) : (
+          <li>
+            <button
+              type="button"
+              className="inline-flex items-center justify-center h-12 px-6 border-2 rounded-full border-btnBorder bg-transparent transition-all ease-linear delay-75 group hover:cursor-pointer hover:border-btnHover focus:border-btnHover"
+              onClick={showMenu}
             >
-              Login
-            </Link>
-          </button>
-        </li>
+              <Link
+                to="/login"
+                className="text-btnText font-raj font-semibold transition-all ease-linear delay-75 group-hover:text-slate-200"
+              >
+                Login
+              </Link>
+            </button>
+          </li>
+        )}
       </ul>
     </menu>
   );

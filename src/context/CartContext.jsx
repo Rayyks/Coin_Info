@@ -42,6 +42,42 @@ const CartProvider = ({ children }) => {
     }
   };
 
+  const incrementQuantity = (item) => {
+    // Find the index of the item in the cart
+    const itemIndex = cartItem.findIndex((cartItem) => cartItem.id === item.id);
+
+    // Create a copy of the cart and update the quantity and total price
+    const updatedCart = [...cartItem];
+    updatedCart[itemIndex] = {
+      ...updatedCart[itemIndex],
+      quantity: updatedCart[itemIndex].quantity + 1,
+      totalPrice:
+        updatedCart[itemIndex].price * (updatedCart[itemIndex].quantity + 1),
+    };
+
+    // Update the cart state
+    setCartItem(updatedCart);
+  };
+
+  const decrementQuantity = (item) => {
+    // Find the index of the item in the cart
+    const itemIndex = cartItem.findIndex((cartItem) => cartItem.id === item.id);
+
+    // Create a copy of the cart and update the quantity and total price
+    const updatedCart = [...cartItem];
+    if (updatedCart[itemIndex].quantity > 1) {
+      updatedCart[itemIndex] = {
+        ...updatedCart[itemIndex],
+        quantity: updatedCart[itemIndex].quantity - 1,
+        totalPrice:
+          updatedCart[itemIndex].price * (updatedCart[itemIndex].quantity - 1),
+      };
+    }
+
+    // Update the cart state
+    setCartItem(updatedCart);
+  };
+
   // Remove one item from cart by reducing its quantity
   const removeOneFromCart = (itemId) => {
     const existingItemIndex = cartItem.findIndex(
@@ -64,23 +100,14 @@ const CartProvider = ({ children }) => {
     }
   };
 
-  // Remove all from cart
-  const removeAllItem = (itemId) => {
-    const updateCart = cartItem.filter((item) => item.id !== itemId);
-    setCartItem(updateCart);
-  };
-
-  const removeAllFromChart = () => {
-    setCartItem([]);
-  };
   return (
     <CartContext.Provider
       value={{
         cartItem,
         addToCart,
         removeOneFromCart,
-        removeAllFromChart,
-        removeAllItem,
+        incrementQuantity,
+        decrementQuantity,
       }}
     >
       {children}

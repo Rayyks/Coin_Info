@@ -1,11 +1,15 @@
-import React from "react";
-import { useParams } from "react-router";
+import React, { useEffect } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useNft } from "../context/NftContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCartShopping,
+  faArrowCircleLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 const Nft = () => {
   const { data } = useNft();
@@ -14,7 +18,16 @@ const Nft = () => {
   const Enft = data.find((nft) => nft.id === nftId);
 
   const { isLoggedIn } = useAuth();
-  const { addToCart, addNotification } = useCart();
+  const { cartItem, addToCart } = useCart();
+  const [addedToCart, setAddedToCart] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const isItemInCart = cartItem.some((item) => item.id === Enft.id);
+    if (isItemInCart) {
+      setAddedToCart(true);
+    }
+  }, [cartItem, Enft.id]);
 
   const handleCartBtn = () => {
     if (!isLoggedIn) {
@@ -36,6 +49,7 @@ const Nft = () => {
 
     const addItem = {
       id: Enft.id,
+      image: Enft.imageUrl,
       title: Enft.title,
       desc: Enft.description,
       price: Enft.price,
@@ -43,7 +57,7 @@ const Nft = () => {
 
     addToCart(addItem);
     toast.success(`${Enft.title} has been added to your cart.`, {
-      position: "top-right",
+      position: "bottom-right",
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -52,6 +66,11 @@ const Nft = () => {
       progress: undefined,
       theme: "dark",
     });
+    setAddedToCart(true);
+  };
+
+  const goToCart = () => {
+    navigate("/cart");
   };
 
   return (
@@ -74,19 +93,34 @@ const Nft = () => {
           </div>
           <div className="mt-4 flex justify-between">
             <button
-              className="bg-fuchsia-600 transition ease-in-out  hover:bg-fuchsia-800 text-white px-2 py-2 rounded-md flex items-center"
-              onClick={handleCartBtn}
+              className={`bg-fuchsia-600 transition ease-in-out  hover:bg-fuchsia-800 text-white px-2 py-2 rounded-md flex items-center ${
+                addedToCart ? "cursor-pointer" : ""
+              }`}
+              onClick={addedToCart ? goToCart : handleCartBtn}
             >
               <FontAwesomeIcon
                 icon={faCartShopping}
                 style={{ color: "#ffffff" }}
                 className="px-2"
               />
-              Add to Cart
+              {addedToCart ? "Go To Cart" : "Add To Cart"}
             </button>
             <button className="bg-fuchsia-600 transition ease-in-out  hover:bg-fuchsia-800 text-white px-4 py-2 rounded-md flex items-center">
               Buy Now
             </button>
+          </div>
+          <div>
+            <Link
+              to="/nfts"
+              className="my-5 bg-fuchsia-600 transition ease-in-out  hover:bg-fuchsia-800 text-white px-4 py-2 rounded-md flex items-center"
+            >
+              <FontAwesomeIcon
+                icon={faArrowCircleLeft}
+                style={{ color: "#ffffff" }}
+                className="px-2"
+              />
+              Continue Shopping
+            </Link>
           </div>
         </div>
       </div>

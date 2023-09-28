@@ -6,7 +6,7 @@ const nft = [
     imageUrl: NFTs.wilo0,
     title: "Wilo Blue",
     description: "Description 1",
-    price: "Free",
+    price: 0,
   },
   {
     id: 2,
