@@ -45,7 +45,7 @@ function Services() {
             {cardData.map((card, index) => (
               <Fragment key={index}>
                 <div
-                  className={`group ${card.img} z-10 bg-slateBg bg-opacity-50 rounded-xl shadow-xl px-4 sm:px-8 py-6 sm:py-12 space-y-6 text-center bg-blend-color`}
+                  className={`group ${card.img} relative z-10 bg-slateBg bg-opacity-50 rounded-xl shadow-xl px-4 sm:px-8 py-6 sm:py-12 space-y-6 text-center bg-blend-color`}
                 >
                   <h3 className="text-2xl font-semibold text-textBg">
                     {card.title}
@@ -53,8 +53,9 @@ function Services() {
                   <p>{card.description}</p>
                   <Link
                     to={card.link}
-                    className="relative flex justify-center items-center h-10 w-10 mx-auto 
+                    className="relative isolate flex justify-center items-center h-10 w-10 mx-auto 
                   before:absolute before:border-btnHover before:inset-0 before:border before:rounded-full before:transition before:duration-300 group-hover:before:scale-125 group-hover:before:border-btnBorder"
+                    style={{ pointerEvents: "auto" }}
                   >
                     <span className="text-slate-300 text-lg">&#8594;</span>
                   </Link>
