@@ -26,31 +26,43 @@ const SignUp = () => {
   };
 
   // Function to handle form submission
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     // Extract form data
-    const { username, email, password } = formData;
+    const { email, password } = formData;
 
     // Call signUp function from AuthContext
-    signUp(username, email, password);
+    try {
+      await signUp(email, password);
+      // Display a success toast for signup
+      toast.success("Account created successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
 
-    // Display a success toast for signup
-    toast.success("Account created successfully!", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
-
-    // Navigate to the login page
-    navigate("/login");
-
-    console.log(formData);
+      // Navigate to the login page
+      navigate("/login");
+    } catch (error) {
+      // Display error toast if sign up fails
+      toast.error("Sign up failed. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      console.error("Sign up failed", error);
+    }
   };
 
   return (
@@ -76,26 +88,6 @@ const SignUp = () => {
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" onSubmit={handleFormSubmit}>
-          <div>
-            <label
-              htmlFor="username"
-              className="block text-lg font-medium leading-6 text-gray-100"
-            >
-              Username
-            </label>
-            <div className="mt-2">
-              <input
-                id="username"
-                name="username"
-                type="text"
-                value={formData.username}
-                onChange={handleInputChanges}
-                required
-                placeholder="Your Username"
-                className="block w-full text-xl font-semibold  rounded-md border-2 border-gray-400 py-2 px-4 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-600 focus:outline-none"
-              />
-            </div>
-          </div>
           <div>
             <label
               htmlFor="email"

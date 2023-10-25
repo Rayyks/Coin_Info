@@ -5,7 +5,7 @@ import profileImg from "../../../assets/nfts/special.jpg";
 import { useCoin } from "../../context/CryptoContext";
 
 const Profile = () => {
-  const { user } = useAuth();
+  const { currentUser } = useAuth();
   const { cartItem } = useCart();
   const { data } = useCoin();
 
@@ -92,7 +92,7 @@ const Profile = () => {
               </div>
               <div className="text-center mt-12">
                 <h3 className="text-4xl font-semibold leading-normal mb-2 text-white">
-                  {user}
+                  {currentUser.email}
                 </h3>
                 <div className="text-sm leading-normal mt-0 mb-2 text-white font-bold uppercase">
                   <i className="fas fa-map-marker-alt mr-2 text-lg text-white"></i>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 const MenuItem = ({ showMenu, active }) => {
-  const { isLoggedIn, logout } = useAuth();
+  const { currentUser, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -70,7 +70,7 @@ const MenuItem = ({ showMenu, active }) => {
       </li>
 
       <ul className={active ? "items-center text-center space-x-8" : "hidden"}>
-        {isLoggedIn ? (
+        {currentUser ? (
           <>
             <li>
               <Link

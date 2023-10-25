@@ -17,7 +17,7 @@ const Nft = () => {
   const nftId = Number(id);
   const Enft = data.find((nft) => nft.id === nftId);
 
-  const { isLoggedIn } = useAuth();
+  const { currentUser } = useAuth();
   const { cartItem, addToCart } = useCart();
   const [addedToCart, setAddedToCart] = useState(false);
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const Nft = () => {
   }, [cartItem, Enft.id]);
 
   const handleCartBtn = () => {
-    if (!isLoggedIn) {
+    if (!currentUser) {
       const nftType = Enft.title.includes("Special") ? "DOPE" : "CUTE";
       return toast.error(
         `You must be logged in to add this ${nftType} ${Enft.title} to cart`,

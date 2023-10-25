@@ -72,32 +72,18 @@ const CartProvider = ({ children }) => {
         totalPrice:
           updatedCart[itemIndex].price * (updatedCart[itemIndex].quantity - 1),
       };
+    } else {
+      // If the quantity is 1, remove the item from the cart
+      updatedCart.splice(itemIndex, 1);
     }
 
     // Update the cart state
     setCartItem(updatedCart);
   };
 
-  // Remove one item from cart by reducing its quantity
-  const removeOneFromCart = (itemId) => {
-    const existingItemIndex = cartItem.findIndex(
-      (cartItem) => cartItem.id === itemId
-    );
-
-    if (existingItemIndex !== -1) {
-      const updatedCart = [...cartItem];
-      if (updatedCart[existingItemIndex].quantity > 1) {
-        // Reduce the quantity of the item by 1
-        updatedCart[existingItemIndex].quantity -= 1;
-        updatedCart[existingItemIndex].totalPrice =
-          updatedCart[existingItemIndex].price *
-          updatedCart[existingItemIndex].quantity;
-      } else {
-        // If the quantity is 1, remove the item from the cart
-        updatedCart.splice(existingItemIndex, 1);
-      }
-      setCartItem(updatedCart);
-    }
+  // Remove all items from the cart
+  const removeAllFromCart = () => {
+    setCartItem([]);
   };
 
   return (
@@ -105,7 +91,7 @@ const CartProvider = ({ children }) => {
       value={{
         cartItem,
         addToCart,
-        removeOneFromCart,
+        removeAllFromCart,
         incrementQuantity,
         decrementQuantity,
       }}

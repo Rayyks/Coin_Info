@@ -18,9 +18,6 @@ const Cart = React.lazy(() => import("./pages/Cart/Cart"));
 const Profile = React.lazy(() => import("./pages/Profile/Profile"));
 
 const App = () => {
-  const { isLoggedIn } = useContext(AuthContext);
-  const navigate = useNavigate();
-
   return (
     <div className="min-h-screen flex flex-col overflow-hidden">
       <Navbar />

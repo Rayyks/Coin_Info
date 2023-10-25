@@ -1,92 +1,66 @@
-import { useState, createContext, useEffect, useContext } from "react";
-import { toast } from "react-toastify";
+import React, { useState, createContext, useEffect, useContext } from "react";
+import {
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
+
+import { auth } from "../firebase";
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   // State to track the user's authentication status
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    localStorage.getItem("isLoggedIn") === "true"
-  );
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // State to store user data (username, email, etc.)
-  const [userData, setUserData] = useState({
-    username: localStorage.getItem("username") || "",
-    email: localStorage.getItem("email") || "",
-    password: localStorage.getItem("password") || "",
-  });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+      setLoading(false);
+    });
 
-  // Function to handle SingUp user
-  const signUp = (username, email, password) => {
+    return unsubscribe;
+  }, []);
+
+  // Function to handle SignUp user
+  const signUp = async (email, password) => {
     try {
-      setUserData({ username, email, password });
-
-      // Store data in localStorage
-      localStorage.setItem("isLoggedIn", true);
-      localStorage.setItem("username", username);
-      localStorage.setItem("email", email);
-      localStorage.setItem("password", password);
+      await createUserWithEmailAndPassword(auth, email, password);
     } catch (error) {
-      console.log("Please Go fuck you self", error);
+      console.log("Sign up failed", error);
     }
   };
 
   // Function to handle user login
-  const login = (email, password) => {
+  const login = async (email, password) => {
     try {
-      // Check if user is registered
-      const registeredEmail = localStorage.getItem("email");
-      const registeredPassword = localStorage.getItem("password");
-
-      if (email !== registeredEmail || password !== registeredPassword) {
-        return;
-      }
-
-      setIsLoggedIn(true);
-      setUserData({ email, password });
-
-      // Store data in localStorage
-      localStorage.setItem("isLoggedIn", true);
-      localStorage.setItem("email", email);
-      localStorage.setItem("password", password);
+      await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
-      console.log("Login failed like you life", error);
+      console.log("Login failed", error);
     }
   };
 
   // Function to handle user logout
-  const logout = () => {
-    setIsLoggedIn(false);
-    setUserData({
-      username: "",
-      email: "",
-      password: "",
-    });
-
-    // Clear data from localStorage
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("username");
-    localStorage.removeItem("email");
-    localStorage.removeItem("password");
+  const logout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.log("Logout failed", error);
+    }
   };
-
-  // useEffect to persist the login status
-  useEffect(() => {
-    localStorage.setItem("isLoggedIn", isLoggedIn);
-  }, [isLoggedIn]);
 
   return (
     <AuthContext.Provider
       value={{
-        isLoggedIn,
-        userData,
-        user: userData.username,
+        currentUser,
         signUp,
         login,
         logout,
       }}
     >
-      {children}
+      {!loading && children}
     </AuthContext.Provider>
   );
 };

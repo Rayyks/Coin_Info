@@ -4,9 +4,10 @@ import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../../../assets/images/logo.svg";
+import { useEffect } from "react";
 
 const Login = () => {
-  const { login, user } = useAuth();
+  const { login, currentUser } = useAuth();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -31,25 +32,10 @@ const Login = () => {
     const { email, password } = formData;
 
     try {
-      const isRegistered = localStorage.getItem("email") === email;
-      if (!isRegistered) {
-        toast.error("Check your email / password or Register ", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
-        return;
-      }
-      // Call login function from AuthContext
       await login(email, password);
 
       // If login is successful, display a success toast
-      toast.success(`Welcome Back ${user}`, {
+      toast.success("Login successful!", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -62,12 +48,31 @@ const Login = () => {
 
       // Navigate to home page
       navigate("/");
-      console.log(formData, "YOU ARE LoggedIn");
     } catch (error) {
       // Handle login error, e.g., show an error toast
+      toast.error(
+        "Login failed. Please check your credentials and try again.",
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        }
+      );
       console.error("Login failed:", error);
     }
   };
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/profile");
+    }
+  }, [currentUser]);
+
   return (
     <div className="relative isolate bg-mainBg  flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div

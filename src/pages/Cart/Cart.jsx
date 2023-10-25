@@ -7,7 +7,7 @@ import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import emptyCart from "../../../assets/images/empty-cart.webp";
 
 const Cart = () => {
-  const { cartItem, removeOneFromCart, incrementQuantity, decrementQuantity } =
+  const { cartItem, removeAllFromCart, incrementQuantity, decrementQuantity } =
     useCart();
 
   // Calculate the total price
@@ -81,24 +81,6 @@ const Cart = () => {
                     </div>
                   </div>
                 </Link>
-                <button
-                  onClick={() => {
-                    removeOneFromCart(item.id);
-                    toast.success(`${item.title} removed from cart`, {
-                      position: "bottom-right",
-                      autoClose: 3000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                      theme: "dark",
-                    });
-                  }}
-                  className="flex mx-auto z-10 mt-12 py-1 px-4 font-raj  mb-10 font-semibold text-lg text-slate-300 border-2 border-btnBorder rounded-xl hover:border-btnHover shadow-btnHover shadow-3xl focus:outline-btnHover "
-                >
-                  Remove
-                </button>
                 <div className="flex items-center w-full md:w-1/5 justify-center">
                   <button
                     className="quantity-button"
@@ -167,6 +149,37 @@ const Cart = () => {
               </p>
             </div>
           )}
+          <button
+            onClick={() => {
+              removeAllFromCart();
+              if (cartItem.length === 0) {
+                toast.error(`Bruh you don't have any item`, {
+                  position: "bottom-right",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "dark",
+                });
+              } else {
+                toast.success(`All item removed from cart`, {
+                  position: "bottom-right",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "dark",
+                });
+              }
+            }}
+            className="flex mx-auto z-10 mt-12 py-1 px-4 font-raj  mb-10 font-semibold text-lg text-slate-300 border-2 border-btnBorder rounded-xl hover:border-btnHover shadow-btnHover shadow-3xl focus:outline-btnHover "
+          >
+            Remove all items
+          </button>
           <Link
             to="/nfts"
             className="flex font-semibold text-purple-600 text-sm md:text-base mt-4 md:mt-10"
